@@ -12,7 +12,7 @@
       }
 
       function create(left, top) {
-        var circle = $('<div class="circle></div>');
+        var circle = $('<div class="circle"></div>');
         _position(circle, left, top);
         return circle;
       }
