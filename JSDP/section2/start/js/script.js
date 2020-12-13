@@ -1,18 +1,35 @@
 (function (win, $) {
+  let RedCircle = function () {
+    this.item = $('<div class="circle"></div>');
+  };
+  let BlueCircle = function () {
+    this.item = $('<div class="circle" style="background:blue"></div>');
+  };
+  let CircleFactory = function () {
+    this.create = function (color) {
+      if (color === "blue") {
+        return new BlueCircle();
+      } else {
+        return new RedCircle();
+      }
+    };
+  };
+
   let CircleGeneratorSingleton = (function () {
     let instance;
 
     function init() {
       let _aCircle = [],
-        _stage = $(".advert");
+        _stage = $(".advert"),
+        _cf = new CircleFactory();
 
       function _position(circle, left, top) {
         circle.css("left", left);
         circle.css("top", top);
       }
 
-      function create(left, top) {
-        let circle = $('<div class="circle"></div>');
+      function create(left, top, color) {
+        let circle = _cf.create(color).item;
         _position(circle, left, top);
         return circle;
       }
@@ -43,7 +60,7 @@
   $(win.document).ready(function () {
     $(".advert").click(function (e) {
       let cg = CircleGeneratorSingleton.getInstance();
-      let circle = cg.create(e.pageX - 25, e.pageY - 25);
+      let circle = cg.create(e.pageX - 25, e.pageY - 25, "red");
 
       cg.add(circle);
     });
@@ -53,7 +70,8 @@
         let cg = CircleGeneratorSingleton.getInstance();
         let circle = cg.create(
           Math.floor(Math.random() * 600),
-          Math.floor(Math.random() * 600)
+          Math.floor(Math.random() * 600),
+          "blue"
         );
 
         cg.add(circle);
