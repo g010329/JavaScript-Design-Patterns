@@ -1,45 +1,47 @@
-const { readSync } = require("fs");
-
 var chatModule = (function () {
-  var leadself = "Me:  ",
-    leadcomputer = "PC:   ",
-    aSaid = ["This is a Cyber Chat"],
-    msgYes = "Yes, that's a great idea.",
-    msgNo = "No, that must be a mistake.",
-    aSassyStuff = [
+  var _leadself = "Me:  ",
+    _leadcomputer = "PC:   ",
+    _aSaid = ["This is a Cyber Chat"],
+    _msgYes = "Yes, that's a great idea.",
+    _msgNo = "No, that must be a mistake.",
+    _aSassyStuff = [
       "Like mold on books, grow myths on history.",
       "She moved like a poem and smiled like a sphinx.",
       "As long as we don’t die, this is gonna be one hell of a story.",
       "She laughed, and the desert sang.",
       "You’ve got about as much charm as a dead slug.",
     ];
-  function echo(msg) {
-    aSaid.push("<div>" + msg + "</div>");
 
-    var aSaidLength = aSaid.length,
-      start = Math.max(aSaid.length - 6, 0),
+  function _echo(msg) {
+    _aSaid.push("<div>" + msg + "</div>");
+
+    var aSaidLength = _aSaid.length,
+      start = Math.max(_aSaid.length - 6, 0),
       out = "";
 
     for (var i = start; i < aSaidLength; i++) {
-      out += aSaid[i];
+      out += _aSaid[i];
     }
 
     $(".advert").html(out);
     $("#talk span").text(msg);
   }
+  function talk(msg) {
+    _echo(_leadself + msg);
+  }
+  function replyYesNo() {
+    var msg = Math.random() > 0.5 ? _msgYes : _msgNo;
+    _echo(_leadcomputer + msg);
+  }
+  function saySassyStuff() {
+    var msg = _aSassyStuff[Math.floor(Math.random() * _aSassyStuff.length)];
+    _echo(_leadcomputer + msg);
+  }
 
   return {
-    talk: function (msg) {
-      echo(leadself + msg);
-    },
-    replyYesNo: function () {
-      var msg = Math.random() > 0.5 ? msgYes : msgNo;
-      echo(leadcomputer + msg);
-    },
-    saySassyStuff: function () {
-      var msg = aSassyStuff[Math.floor(Math.random() * aSassyStuff.length)];
-      echo(leadcomputer + msg);
-    },
+    talk: talk,
+    replyYesNo: replyYesNo,
+    saySassyStuff: saySassyStuff,
   };
 })();
 
@@ -49,9 +51,10 @@ $(document).ready(function () {
   chatModule.saySassyStuff();
 });
 
-// echo已經private了，外部取不到
-// console.log(chatModule.echo);
-// console.log(echo);
+// Reveal module :
+// Can't override those public methods anymore because we don't really have access to them.
+// We have access to a referance to them.
+// So it's a much more fragile design where it's not really extensible once it's created.
 
 // ------------------
 // var com = com || {};
