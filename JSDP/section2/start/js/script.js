@@ -1,9 +1,9 @@
 (function (win, $) {
-  var CircleGeneratorSingleton = (function () {
-    var instance;
+  let CircleGeneratorSingleton = (function () {
+    let instance;
 
     function init() {
-      var _aCircle = [],
+      let _aCircle = [],
         _stage = $(".advert");
 
       function _position(circle, left, top) {
@@ -12,7 +12,7 @@
       }
 
       function create(left, top) {
-        var circle = $('<div class="circle"></div>');
+        let circle = $('<div class="circle"></div>');
         _position(circle, left, top);
         return circle;
       }
@@ -42,16 +42,16 @@
 
   $(win.document).ready(function () {
     $(".advert").click(function (e) {
-      var cg = CircleGeneratorSingleton.getInstance();
-      var circle = cg.create(e.pageX - 25, e.pageY - 25);
+      let cg = CircleGeneratorSingleton.getInstance();
+      let circle = cg.create(e.pageX - 25, e.pageY - 25);
 
       cg.add(circle);
     });
 
     $(document).keypress(function (e) {
       if (e.key == "a") {
-        var cg = CircleGeneratorSingleton.getInstance();
-        var circle = cg.create(
+        let cg = CircleGeneratorSingleton.getInstance();
+        let circle = cg.create(
           Math.floor(Math.random() * 600),
           Math.floor(Math.random() * 600)
         );
